@@ -1,0 +1,5 @@
+# --allow-all-external
+
+Django==3.2.13
+djangorestframework==3.12.4
+django-cors-headers==3.7.0
