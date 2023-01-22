@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, views, status
-from .models import Caste, Relationship, Religion
-from .serializers import CasteSerializer, ReligionSerializer, RelationshipSerializer
+from .models import Branch, Caste, Center, Relationship, Religion
+from .serializers import BranchSerializer, CasteSerializer, CenterSerializer, ReligionSerializer, RelationshipSerializer
 from rest_framework.pagination import PageNumberPagination
 
 class ListPagination(PageNumberPagination):
@@ -41,5 +41,29 @@ class RelationshipList(generics.ListAPIView):
 
     def get_queryset(self):
         settings_obj = Relationship.objects.all()
-
         return settings_obj
+
+
+class CenterList(generics.ListAPIView):
+    model = Center
+    serializer_class = CenterSerializer
+    pagination_class = ListPagination
+
+    permission_classes = [permissions.AllowAny]
+    
+    def get_queryset(self):
+        queryset = Center.objects.filter(branchId=self.kwargs.get("id"))
+        return queryset
+
+
+class BranchList(generics.ListAPIView):
+    model = Branch
+    serializer_class = BranchSerializer
+    pagination_class = ListPagination
+
+    permission_classes = [permissions.AllowAny]
+    
+    def get_queryset(self):
+        queryset = Branch.objects.all()
+        return queryset
+        

@@ -56,6 +56,17 @@ class APIService {
         return;
       });
   }
+
+  getCenters(){
+    return axios
+      .get('misc/branch/2/')
+      .then(response => {
+        return response.data;
+      })
+      .catch(err => {
+        return;
+      });
+  }
 }
 
 const PDService = new APIService();

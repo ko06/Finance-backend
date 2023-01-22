@@ -218,7 +218,8 @@ function Profile() {
   
     let data ;
 
-    PDService.getCaste('http://localhost:8000/wel/')
+    // PDService.getCaste('http://localhost:8000/wel/')
+    PDService.getCenters()
     .then(res => {
         data = res.data;
         this.setState({
