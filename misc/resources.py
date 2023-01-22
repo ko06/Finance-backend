@@ -52,7 +52,7 @@ class CenterList(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
     
     def get_queryset(self):
-        queryset = Center.objects.filter(branchId=self.kwargs.get("id"))
+        queryset = Center.objects.filter(branch=self.kwargs.get("id"))
         return queryset
 
 

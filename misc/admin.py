@@ -19,7 +19,7 @@ class BranchAdmin(admin.ModelAdmin):
         }
 
 class CenterAdmin(admin.ModelAdmin):
-    raw_id_fields = ("userId","branchId")
+    raw_id_fields = ("user","branch")
     class Meta:
         model = Center
 

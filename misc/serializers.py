@@ -45,11 +45,11 @@ class BranchSerializer(serializers.ModelSerializer):
         )
 
 class CenterSerializer(serializers.ModelSerializer):
-    userId = UserSerializer()
+    user = UserSerializer()
 
     class Meta:
         model = Center
         fields = (
-            "name","id","image","userId"
+            "name","id","image","user"
         )
         

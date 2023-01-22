@@ -86,6 +86,14 @@ OCCUPATION_TYPE = (
     ("wages", "Wages"),
     ("driver", "Driver"),
     ("salaried", "Salaried"),
+) 
+
+DAYS_TYPE = (
+    ("monday", "Monday"),
+    ("tuesday", "Tuesday"),
+    ("wednesday", "Wednesday"),
+    ("thursday", "Thursday"),
+    ("friday", "Friday"),
 )
     
 class Role(models.Model):
@@ -108,9 +116,10 @@ class Center(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     description = models.CharField(max_length=1023, blank=True, null=True)
     image = models.ImageField(upload_to="featured_image/%Y/%m/%d/")
-    branchId = models.ForeignKey(Branch, on_delete=models.CASCADE)
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=1)
+    dayOrder = models.CharField(max_length=50,choices=DAYS_TYPE)
     addedOn = models.DateTimeField(auto_now_add=True,blank=True,
         null=True)
     addedBy = models.DateTimeField("Initial added Date", blank=True, null=True, editable=False)
