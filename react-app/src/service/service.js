@@ -48,7 +48,7 @@ class APIService {
 
   getCaste(){
     return axios
-      .get('misc/caste/')
+      .get('/misc/caste/')
       .then(response => {
         return response.data;
       })
@@ -57,9 +57,20 @@ class APIService {
       });
   }
 
-  getCenters(){
+  getBranches(){
     return axios
-      .get('misc/branch/2/')
+      .get('/misc/branch/all')
+      .then(response => {
+        return response.data;
+      })
+      .catch(err => {
+        return;
+      });
+  }
+
+  getCenters(id){
+    return axios
+      .get(`misc/branch/${id}/`)
       .then(response => {
         return response.data;
       })

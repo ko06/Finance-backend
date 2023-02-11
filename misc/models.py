@@ -115,7 +115,7 @@ class Role(models.Model):
 class Center(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     description = models.CharField(max_length=1023, blank=True, null=True)
-    image = models.ImageField(upload_to="featured_image/%Y/%m/%d/")
+    image = models.ImageField(upload_to="%Y/%m/%d/")
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=1)

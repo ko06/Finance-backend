@@ -9,7 +9,7 @@
   =========================================================
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import PDService from "../service/service";
 import {
   Row,
@@ -206,6 +206,8 @@ for (let i = 0; i < 3; i++) {
 function Profile() {
   const [imageURL, setImageURL] = useState(false);
   const [, setLoading] = useState(false);
+  const [branches, setBranches] = useState([]);
+  const [centers, setCenters] = useState([]);
   const [addMemberInfo, setAddMemberInfo] = useState({ status: false });
   const [updateMoneyInfo, setUpdateMoneyInfo] = useState({ status: false });
 
@@ -214,20 +216,23 @@ function Profile() {
     console.log(key);
   };
 
-  let selva = () => {
-  
-    let data ;
-
-    // PDService.getCaste('http://localhost:8000/wel/')
-    PDService.getCenters()
-    .then(res => {
-        data = res.data;
-        this.setState({
-            details : data    
-        });
-    })
-    .catch(err => {})
-}
+  let getBranchesList = () => {
+    let data;
+    PDService.getBranches()
+      .then((res) => {
+        data = res.results;
+        setBranches(data);
+      })
+      .catch((err) => {});
+  };
+  let getCenterList = (id) => {
+    PDService.getCenters(id)
+      .then((res) => {
+        let data = res.results;
+        setCenters(data);
+      })
+      .catch((err) => {});
+  };
 
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -318,9 +323,14 @@ function Profile() {
   ];
 
   useEffect(() => {
-    // Update the document title using the browser API
-    selva()
-  });
+    getBranchesList();
+  },[]);
+
+  useEffect(() => {
+    if(branches)
+    // getCenterList(branches[0].id);
+    getCenterList(2);
+  }, [branches]);
 
   return (
     <>
@@ -380,14 +390,14 @@ function Profile() {
         }
       >
         <Row gutter={[24, 24]}>
-          {project.map((p, index) => (
+          {centers.map((p, index) => (
             <Col span={16} md={12} xl={8} key={index}>
               <Card
                 bordered={false}
                 className="card-project"
-                cover={<img alt="example" src={p.img} />}
+                cover={<img alt="example" src={p.image} />}
               >
-                <div className="card-tag">{p.titlesub} </div>
+                <div className="card-tag">{p.name} </div>
                 <div className="card-time">
                   <div>{p.lead} </div>
                   <div>{p.time}</div>
