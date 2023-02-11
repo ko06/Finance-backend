@@ -120,6 +120,7 @@ class Center(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=1)
     dayOrder = models.CharField(max_length=50,choices=DAYS_TYPE)
+    time =  models.TimeField(auto_now=False, auto_now_add=False)
     addedOn = models.DateTimeField(auto_now_add=True,blank=True,
         null=True)
     addedBy = models.DateTimeField("Initial added Date", blank=True, null=True, editable=False)

@@ -50,6 +50,6 @@ class CenterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Center
         fields = (
-            "name","id","image","user"
+            "name","id","image","user","time"
         )
         
