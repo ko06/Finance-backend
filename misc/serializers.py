@@ -1,5 +1,5 @@
 from rest_framework import serializers, generics
-from .models import Branch, Caste, Center, Relationship, Religion
+from .models import Branch, Caste, Center, Relationship, Religion, Role
 from django.contrib.auth.models import User
 
 
@@ -34,7 +34,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "username",
-            "id"
+            "id",
+            "first_name"
         )
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,6 +45,16 @@ class BranchSerializer(serializers.ModelSerializer):
             "id"
         )
 
+
+class RolesSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Role
+        fields = (
+            "user",
+            "id"
+        )
 class CenterSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 

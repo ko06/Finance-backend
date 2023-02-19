@@ -315,7 +315,6 @@ function Profile({activeBranchID}) {
  
 
   useEffect(() => {
-    debugger;
     if(activeBranchID)
     getCenterList(activeBranchID);
   }, [activeBranchID]);

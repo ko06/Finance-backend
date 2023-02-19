@@ -18,7 +18,7 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const AddCenter = ({ addCenterInfo, onCancel }) => {
+const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
@@ -56,16 +56,11 @@ const AddCenter = ({ addCenterInfo, onCancel }) => {
         <Form.Item label="Center Name">
           <Input />
         </Form.Item>
-        <Form.Item label="Branch">
-          <Select>
-            <Select.Option value="Dindugal">Dindugal</Select.Option>
-            <Select.Option value="Chinnalampatti">Chinnalampatti</Select.Option>
-          </Select>
-        </Form.Item>
         <Form.Item label="Staff">
           <Select>
-            <Select.Option value="Saravanan">Saravanan</Select.Option>
-            <Select.Option value="Dinesh">Dinesh</Select.Option>
+            {staffs.map((staff) => (
+              <Select.Option value={staff.id}>{staff.user.username}</Select.Option>
+            ))}
           </Select>
         </Form.Item>
         <Form.Item label="Dayorder">

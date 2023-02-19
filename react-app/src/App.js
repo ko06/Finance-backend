@@ -21,11 +21,23 @@ import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 import { useState, useEffect } from "react";
-import PDService  from './service/service';
+import PDService from "./service/service";
 
 function App() {
   const [branches, setBranches] = useState([]);
   const [activeBranchID, setActiveBranchID] = useState([]);
+  const [staffs, setStaffs] = useState([]);
+
+  let getStaffList = (id) => {
+    let data;
+    PDService.getStaffs(id)
+      .then((res) => {
+        data = res.results;
+        setStaffs(data);
+      })
+      .catch((err) => {});
+  };
+
   let getBranchesList = () => {
     let data;
     PDService.getBranches()
@@ -37,18 +49,58 @@ function App() {
   };
 
   useEffect(() => {
+    if (activeBranchID) getStaffList(activeBranchID);
+  }, [activeBranchID]);
+
+  useEffect(() => {
     getBranchesList();
-  },[]);
+  }, []);
 
   return (
     <div className="App">
       <Switch>
         <Route path="/" exact component={SignIn} />
-        <Main branches={branches} setActiveBranchID={(value) => setActiveBranchID(value)}>
-          <Route exact path="/dashboard" component={Home} />
+        <Main
+          branches={branches}
+          setActiveBranchID={(value) => setActiveBranchID(value)}
+        >
+          <Route
+            exact
+            path="/dashboard"
+            render={(props) => (
+              <Home
+                {...props}
+                setActiveBranchID={(value) => setActiveBranchID(value)}
+                activeBranchID={activeBranchID}
+                staffs={staffs}
+              ></Home>
+            )}
+          />
           <Route exact path="/billing" component={Billing} />
-          <Route exact path="/profile" render ={props => <Profile  {...props} activeBranchID={activeBranchID}></Profile>} />
-          <Route exact path="/settings" component={Settings} />
+          <Route
+            exact
+            path="/profile"
+            render={(props) => (
+              <Profile
+                {...props}
+                setActiveBranchID={(value) => setActiveBranchID(value)}
+                activeBranchID={activeBranchID}
+                staffs={staffs}
+              ></Profile>
+            )}
+          />
+          <Route
+            exact
+            path="/settings"
+            render={(props) => (
+              <Settings
+                {...props}
+                setActiveBranchID={(value) => setActiveBranchID(value)}
+                activeBranchID={activeBranchID}
+                staffs={staffs}
+              ></Settings>
+            )}
+          />
           {/* <Redirect from="*" to="/" /> */}
         </Main>
       </Switch>

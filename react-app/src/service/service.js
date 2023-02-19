@@ -78,6 +78,17 @@ class APIService {
         return;
       });
   }
+
+  getStaffs(id){
+    return axios
+      .get(`misc/roles/${id}/`)
+      .then(response => {
+        return response.data;
+      })
+      .catch(err => {
+        return;
+      });
+  }
 }
 
 const PDService = new APIService();

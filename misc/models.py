@@ -1,49 +1,21 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
-
-
 # Create your models here.
 
-class Caste(models.Model):
-  name = models.CharField(max_length=10)
-  description  = models.CharField(max_length=255, blank=True, null=True)
-  class Meta:
-      ordering = ["name"]
+BLOOD_TYPE = (
+    (
+        ('ab+', 'AB+'),
+        ('ab-', 'AB-'),
+        ('a+', 'A+'),
+        ('a-', 'A-'),
+        ('b+', 'B+'),
+        ('b-', 'B-'),
+        ('o+', 'O+'),
+        ('o-', 'O-'),
+        )
 
-  def __str__(self):
-      return self.name
-
-class Religion(models.Model):
-  name = models.CharField(max_length=10)
-  description  = models.CharField(max_length=255, blank=True, null=True)
-  class Meta:
-      ordering = ["name"]
-
-  def __str__(self):
-      return self.name
-
-class Relationship(models.Model):
-  name = models.CharField(max_length=10)
-  description  = models.CharField(max_length=255, blank=True, null=True)
-  class Meta:
-      ordering = ["name"]
-
-  def __str__(self):
-      return self.name
-
-class Branch(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False)
-    status = models.SmallIntegerField()
-    addedOn = models.TimeField(auto_now_add=True)
-    addedBy = models.BigIntegerField()
-    updatedOn = models.TimeField(auto_now=True)
-    updatedBy = models.BigIntegerField()
-    deletedOn = models.TimeField(auto_now=True)
-    deletedBy = models.BigIntegerField()
-    
-    def __str__(self):
-      return self.name
-
+) 
 
 OBJECT_TYPE = (
     ("AD", "Admin"),
@@ -95,10 +67,51 @@ DAYS_TYPE = (
     ("thursday", "Thursday"),
     ("friday", "Friday"),
 )
+
+class Caste(models.Model):
+  name = models.CharField(max_length=10)
+  description  = models.CharField(max_length=255, blank=True, null=True)
+  class Meta:
+      ordering = ["name"]
+
+  def __str__(self):
+      return self.name
+
+class Religion(models.Model):
+  name = models.CharField(max_length=10)
+  description  = models.CharField(max_length=255, blank=True, null=True)
+  class Meta:
+      ordering = ["name"]
+
+  def __str__(self):
+      return self.name
+
+class Relationship(models.Model):
+  name = models.CharField(max_length=10)
+  description  = models.CharField(max_length=255, blank=True, null=True)
+  class Meta:
+      ordering = ["name"]
+
+  def __str__(self):
+      return self.name
+
+class Branch(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False)
+    status = models.SmallIntegerField()
+    addedOn = models.TimeField(auto_now_add=True)
+    addedBy = models.BigIntegerField()
+    updatedOn = models.TimeField(auto_now=True)
+    updatedBy = models.BigIntegerField()
+    deletedOn = models.TimeField(auto_now=True)
+    deletedBy = models.BigIntegerField()
+    
+    def __str__(self):
+      return self.name
     
 class Role(models.Model):
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=5,choices=OBJECT_TYPE)
+    blood_type = models.CharField(max_length=5,choices=BLOOD_TYPE)
     mobile = models.CharField(max_length=127, blank=False, null=False)
     branchId = models.ForeignKey(Branch, on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=1)

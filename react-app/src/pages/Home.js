@@ -9,8 +9,8 @@
   =========================================================
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
+import PDService from "../service/service";
 import {
   Card,
   Col,
@@ -53,12 +53,12 @@ import team4 from "../assets/images/team-4.jpg";
 import card from "../assets/images/info-card-1.jpg";
 const { Option } = Select;
 
-function Home() {
+function Home({activeBranchID}) {
   const { Title, Text } = Typography;
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
   const [reverse, setReverse] = useState(false);
-
+ 
   const areas = [
     {
       label: "Beijing",
@@ -371,6 +371,22 @@ function Home() {
       sights: [],
     });
   };
+  const [staffs, setStaffs] = useState([]);
+
+  let getStaffList = () => {
+    let data;
+    PDService.getStaffs()
+      .then((res) => {
+        data = res.results;
+        setStaffs(data);
+      })
+      .catch((err) => {});
+  };
+
+  useEffect(() => {
+    if(activeBranchID)
+    getStaffList(activeBranchID);
+  },[activeBranchID]);
 
   return (
     <>

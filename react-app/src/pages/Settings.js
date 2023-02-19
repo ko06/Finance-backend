@@ -9,12 +9,14 @@
   =========================================================
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Card, Col, Row, Button, Collapse, Radio, Table, Checkbox } from "antd";
 import AddMember from "../components/common/addMember";
 import AddCenter from "../components/common/addCenter";
 import AddLoan from "../components/common/addLoan";
+import PDService from "../service/service";
+
 const { Panel } = Collapse;
 
 const columns1 = [
@@ -175,7 +177,7 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-function Home() {
+function Home({ activeBranchID, staffs }) {
   let text = "asdfdsfg";
   const onChange = (key) => {
     console.log(key);
@@ -312,6 +314,7 @@ function Home() {
       ></AddMember>
       <AddCenter
         addCenterInfo={addCenterInfo}
+        staffs={staffs}
         onCancel={() => setAddCenterInfo({ status: false })}
       ></AddCenter>
       <AddLoan
