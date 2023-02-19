@@ -257,6 +257,8 @@ function Header({
   handleSidenavColor,
   handleSidenavType,
   handleFixedNavbar,
+  setActiveBranchID,
+  branches,
 }) {
   const { Title, Text } = Typography;
 
@@ -334,14 +336,12 @@ function Header({
                 style={{
                   width: 200,
                 }}
-                defaultValue="Dindugal"
+                defaultValue={branches[0].id}
+                onChange={(value) => setActiveBranchID(value)}
               >
-                <Select.Option value="All">All</Select.Option>
-                <Select.Option value="Dindugal">Dindugal</Select.Option>
-                <Select.Option value="karur">Karur</Select.Option>
-                <Select.Option value="Chinnalampatti">
-                  Chinnalampatti
-                </Select.Option>
+                {branches.map((branch) => 
+                  <Select.Option value={branch.id}>{branch.name}</Select.Option>
+                )}
               </Select>
               {/* <div className="sidebar-color">
                 <Title level={5}>Sidebar Color</Title>

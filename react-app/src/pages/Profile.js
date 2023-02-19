@@ -203,10 +203,9 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
-function Profile() {
+function Profile({activeBranchID}) {
   const [imageURL, setImageURL] = useState(false);
   const [, setLoading] = useState(false);
-  const [branches, setBranches] = useState([]);
   const [centers, setCenters] = useState([]);
   const [addMemberInfo, setAddMemberInfo] = useState({ status: false });
   const [updateMoneyInfo, setUpdateMoneyInfo] = useState({ status: false });
@@ -216,17 +215,8 @@ function Profile() {
     console.log(key);
   };
 
-  let getBranchesList = () => {
-    let data;
-    PDService.getBranches()
-      .then((res) => {
-        data = res.results;
-        setBranches(data);
-      })
-      .catch((err) => {});
-  };
-  let getCenterList = (id) => {
-    PDService.getCenters(id)
+  let getCenterList = (activeBranchID) => {
+    PDService.getCenters(activeBranchID)
       .then((res) => {
         let data = res.results;
         setCenters(data);
@@ -322,15 +312,13 @@ function Profile() {
     },
   ];
 
-  useEffect(() => {
-    getBranchesList();
-  },[]);
+ 
 
   useEffect(() => {
-    if(branches)
-    // getCenterList(branches[0].id);
-    getCenterList(2);
-  }, [branches]);
+    debugger;
+    if(activeBranchID)
+    getCenterList(activeBranchID);
+  }, [activeBranchID]);
 
   return (
     <>
