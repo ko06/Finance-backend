@@ -2,6 +2,9 @@ from rest_framework import generics, permissions, views, status
 from .models import Branch, Caste, Center, Relationship, Religion,Role
 from .serializers import RolesSerializer, BranchSerializer, CasteSerializer, CenterSerializer, ReligionSerializer, RelationshipSerializer
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
+
+from knox.auth import TokenAuthentication
 
 class ListPagination(PageNumberPagination):
     page_size = 20
@@ -66,11 +69,11 @@ class RoleList(generics.ListAPIView):
         queryset = Center.objects.filter(branch=self.kwargs.get("id"))
         return queryset
 class BranchList(generics.ListAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     model = Branch
     serializer_class = BranchSerializer
     pagination_class = ListPagination
-
-    permission_classes = [permissions.AllowAny]
     
     def get_queryset(self):
         queryset = Branch.objects.all()

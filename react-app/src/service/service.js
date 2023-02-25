@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 /**
  * Function to clean base URL
@@ -10,16 +10,37 @@ import axios from 'axios';
 
 class APIService {
   constructor() {
-    // axios.defaults.headers.common['X-CSRFToken'] = this.getCookie('csrftoken');
+    axios.defaults.headers.common["X-CSRFToken"] =
+      window.localStorage.getItem("accessToken");
+  }
+
+  login(data) {
+    return axios({
+      method: "post",
+      url: `/accounts/login/`,
+      headers: { "Content-Type": "application/json" },
+      data: data,
+    })
+      .then((response) => {
+        debugger;
+        window.localStorage.setItem(
+          "accessToken",
+          JSON.stringify(response.token)
+        );
+        return { message: "Login Successfully", valid: true };
+      })
+      .catch((error) => {
+        return { message: "Login Failed", valid: false };
+      });
   }
 
   load(url, query) {
     return axios
       .get(url || `/api/lookup/datasetmedia/?filter=${query}`)
-      .then(response => {
+      .then((response) => {
         return response.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }
@@ -27,65 +48,65 @@ class APIService {
   loadLiveWorkshops(url, query) {
     return axios
       .get(url || `/api/lookup/events/?filter=${query}`)
-      .then(response => {
+      .then((response) => {
         return response.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }
 
   whoami() {
     return axios
-      .get('/api/whoami/')
-      .then(response => {
+      .get("/api/whoami/")
+      .then((response) => {
         return response.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }
 
-  getCaste(){
+  getCaste() {
     return axios
-      .get('/misc/caste/')
-      .then(response => {
+      .get("/misc/caste/")
+      .then((response) => {
         return response.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }
 
-  getBranches(){
+  getBranches() {
     return axios
-      .get('/misc/branch/all')
-      .then(response => {
+      .get("/misc/branch/all")
+      .then((response) => {
         return response.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }
 
-  getCenters(id){
+  getCenters(id) {
     return axios
       .get(`misc/branch/${id}/`)
-      .then(response => {
+      .then((response) => {
         return response.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }
 
-  getStaffs(id){
+  getStaffs(id) {
     return axios
       .get(`misc/roles/${id}/`)
-      .then(response => {
+      .then((response) => {
         return response.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return;
       });
   }

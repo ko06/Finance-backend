@@ -11,6 +11,7 @@
 */
 import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
+import PDService from "../service/service";
 
 import {
   Layout,
@@ -22,10 +23,10 @@ import {
   Form,
   Input,
   Switch,
+  message,
   Carousel,
 } from "antd";
 import signinbg from "../assets/images/green-timing.jpeg";
-import mission from "../assets/images/misson.jpeg";
 import home from "../assets/images/home.jpeg";
 import corrasal1 from "../assets/images/corrasal-1.jpeg";
 import corrasal2 from "../assets/images/corrasal-2.jpeg";
@@ -105,16 +106,24 @@ const signin = [
     />
   </svg>,
 ];
+
+// export default class SignIn extends Component {
 export default class SignIn extends Component {
   render() {
     const onFinish = (values) => {
-      console.log("Success:", values);
-      this.props.history.push("/dashboard");
+      PDService.login(values)
+        .then((data) => {
+          if (data.valid) {
+            message.success("This is a normal message");
+            this.props.history.push("/dashboard");
+          } else {
+            message.error("This is a normal message");
+          }
+        })
+        .catch((err) => {});
     };
 
-    const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo);
-    };
+    
     return (
       <>
         <Layout className="layout-default layout-signin">
@@ -222,14 +231,13 @@ export default class SignIn extends Component {
                 </Title>
                 <Form
                   onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
                   layout="vertical"
                   className="row-col"
                 >
                   <Form.Item
                     className="username"
                     label="Email"
-                    name="email"
+                    name="username"
                     rules={[
                       {
                         required: true,
