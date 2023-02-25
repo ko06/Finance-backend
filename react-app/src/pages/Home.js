@@ -373,20 +373,20 @@ function Home({activeBranchID}) {
   };
   const [staffs, setStaffs] = useState([]);
 
-  let getStaffList = () => {
-    let data;
-    PDService.getStaffs()
-      .then((res) => {
-        data = res.results;
-        setStaffs(data);
-      })
-      .catch((err) => {});
-  };
+  // let getStaffList = () => {
+  //   let data;
+  //   PDService.getStaffs()
+  //     .then((res) => {
+  //       data = res.results;
+  //       setStaffs(data);
+  //     })
+  //     .catch((err) => {});
+  // };
 
-  useEffect(() => {
-    if(activeBranchID)
-    getStaffList(activeBranchID);
-  },[activeBranchID]);
+  // useEffect(() => {
+  //   if(activeBranchID)
+  //   getStaffList(activeBranchID);
+  // },[activeBranchID]);
 
   return (
     <>

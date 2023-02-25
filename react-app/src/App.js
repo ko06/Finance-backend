@@ -25,7 +25,7 @@ import PDService from "./service/service";
 
 function App() {
   const [branches, setBranches] = useState([]);
-  const [activeBranchID, setActiveBranchID] = useState([]);
+  const [activeBranchID, setActiveBranchID] = useState(null);
   const [staffs, setStaffs] = useState([]);
 
   let getStaffList = (id) => {
@@ -44,12 +44,17 @@ function App() {
       .then((res) => {
         data = res.results;
         setBranches(data);
+        setActiveBranchID(data[0]['id'])
       })
       .catch((err) => {});
   };
 
   useEffect(() => {
-    if (activeBranchID) getStaffList(activeBranchID);
+    if (activeBranchID){
+      console.log(activeBranchID)
+      getStaffList(activeBranchID);
+    } 
+      
   }, [activeBranchID]);
 
   useEffect(() => {
