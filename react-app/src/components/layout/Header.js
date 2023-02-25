@@ -336,7 +336,7 @@ function Header({
                 style={{
                   width: 200,
                 }}
-                defaultValue={branches[0].id}
+                defaultValue={branches[0]?.id}
                 onChange={(value) => setActiveBranchID(value)}
               >
                 {branches.map((branch) => 

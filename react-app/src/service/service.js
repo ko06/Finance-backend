@@ -10,8 +10,12 @@ import axios from "axios";
 
 class APIService {
   constructor() {
-    axios.defaults.headers.common["X-CSRFToken"] =
-      window.localStorage.getItem("accessToken");
+    if (window.localStorage.getItem("accessToken")) {
+
+      axios.defaults.headers[
+        "Authorization"
+      ] = `Token ${window.localStorage.getItem("accessToken")}`;
+    }
   }
 
   login(data) {
@@ -25,7 +29,7 @@ class APIService {
         debugger;
         window.localStorage.setItem(
           "accessToken",
-          JSON.stringify(response.token)
+          JSON.stringify(response.data.token)
         );
         return { message: "Login Successfully", valid: true };
       })

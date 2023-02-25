@@ -11,7 +11,7 @@
 */
 import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
-import PDService from "../service/service";
+import PublicService from "../service/publicService";
 
 import {
   Layout,
@@ -111,7 +111,7 @@ const signin = [
 export default class SignIn extends Component {
   render() {
     const onFinish = (values) => {
-      PDService.login(values)
+      PublicService.login(values)
         .then((data) => {
           if (data.valid) {
             message.success("This is a normal message");
@@ -123,7 +123,6 @@ export default class SignIn extends Component {
         .catch((err) => {});
     };
 
-    
     return (
       <>
         <Layout className="layout-default layout-signin">
@@ -230,6 +229,7 @@ export default class SignIn extends Component {
                   Enter your email and password to sign in
                 </Title>
                 <Form
+                  initialValues={{ username: "admin", password: "admin" }}
                   onFinish={onFinish}
                   layout="vertical"
                   className="row-col"

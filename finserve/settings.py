@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "knox",
     "misc",
-
 ]
 
 MIDDLEWARE = [
@@ -59,7 +58,7 @@ ROOT_URLCONF = "finserve.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [os.path.join(BASE_DIR, 'react-app', 'build')],
+        "DIRS": [os.path.join(BASE_DIR, "react-app", "build")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -126,10 +125,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'react-app', 'build', 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "react-app", "build", "static")]
 
-MEDIA_ROOT = Path.joinpath(BASE_DIR,'featured_image')
-MEDIA_URL = '/featured_image/'
+MEDIA_ROOT = Path.joinpath(BASE_DIR, "featured_image")
+MEDIA_URL = "/featured_image/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -140,12 +139,16 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny"
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ], 
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
-        'knox.auth.TokenAuthentication',
-    ]
+        "knox.auth.TokenAuthentication",
+    ],
+}
+
+REST_KNOX = {
+    "TOKEN_TTL": None,  # will create tokens that never expire
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
