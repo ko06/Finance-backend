@@ -1,5 +1,6 @@
 import React from "react";
 import { PlusOutlined } from "@ant-design/icons";
+import PDService from '../../service/service'
 import {
   Form,
   Input,
@@ -20,8 +21,22 @@ const { TextArea } = Input;
 
 const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    handleOk(values)
   };
+
+  const handleOk = (values) => {
+    PDService.addCenter({
+      name: "selva",
+      description: "this is dummy text",
+      dayorder: "monday",
+      time: "6.30",
+    })
+      .then((res) => {
+        // debugger;
+      })
+      .catch((err) => {});
+  };
+
   return (
     <Modal
       open={addCenterInfo.status}
@@ -35,8 +50,8 @@ const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
         <Button
           key="submit"
           type="primary"
-          //   loading={loading}
-          //   onClick={handleOk}
+          // loading={loading}
+          onClick={handleOk}
         >
           Submit
         </Button>,
@@ -59,7 +74,9 @@ const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
         <Form.Item label="Staff">
           <Select>
             {staffs.map((staff) => (
-              <Select.Option value={staff.id}>{staff.user.username}</Select.Option>
+              <Select.Option value={staff.id}>
+                {staff.user.username}
+              </Select.Option>
             ))}
           </Select>
         </Form.Item>

@@ -1,13 +1,25 @@
 from rest_framework import generics, permissions, views, status
-from .models import Branch, Caste, Center, Relationship, Religion,Role
-from .serializers import RolesSerializer, BranchSerializer, CasteSerializer, CenterSerializer, ReligionSerializer, RelationshipSerializer
+from django.contrib.auth.models import User
+from .models import Branch, Caste, Center, Relationship, Religion, Role
+from .serializers import (
+    RolesSerializer,
+    BranchSerializer,
+    CasteSerializer,
+    CenterSerializer,
+    ReligionSerializer,
+    RelationshipSerializer,
+)
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+import datetime
 
 from knox.auth import TokenAuthentication
 
+
 class ListPagination(PageNumberPagination):
     page_size = 20
+
 
 class CasteList(generics.ListAPIView):
     model = Caste
@@ -47,16 +59,28 @@ class RelationshipList(generics.ListAPIView):
         return settings_obj
 
 
-class CenterList(generics.ListAPIView):
+class CenterList(generics.ListCreateAPIView):
     model = Center
     serializer_class = CenterSerializer
     pagination_class = ListPagination
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
-    permission_classes = [permissions.AllowAny]
-    
     def get_queryset(self):
-        queryset = Center.objects.filter(branch=self.kwargs.get("id"))
+        queryset = Center.objects.get(branch=self.kwargs.get("id"))
         return queryset
+
+    def post(self, request, *args, **kwargs):
+        center = Center.objects.create(
+            user=User.objects.get(id=request.user.id),
+            branch=Branch.objects.get(id=self.kwargs.get("id")),
+            name=request.data["name"],
+            description=request.data["description"],
+            dayOrder=request.data["dayorder"],
+            time = datetime.time(10, 33, 45)
+        )
+        center.save()
+
 
 class RoleList(generics.ListAPIView):
     model = Role
@@ -64,18 +88,19 @@ class RoleList(generics.ListAPIView):
     pagination_class = ListPagination
 
     permission_classes = [permissions.AllowAny]
-    
+
     def get_queryset(self):
         queryset = Center.objects.filter(branch=self.kwargs.get("id"))
         return queryset
+
+
 class BranchList(generics.ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     model = Branch
     serializer_class = BranchSerializer
     pagination_class = ListPagination
-    
+
     def get_queryset(self):
         queryset = Branch.objects.all()
         return queryset
-        

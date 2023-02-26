@@ -11,7 +11,6 @@ import axios from "axios";
 class APIService {
   constructor() {
     if (window.localStorage.getItem("accessToken")) {
-
       axios.defaults.headers[
         "Authorization"
       ] = `Token ${window.localStorage.getItem("accessToken")}`;
@@ -101,6 +100,19 @@ class APIService {
       })
       .catch((err) => {
         return;
+      });
+  }
+
+  addCenter(data) {
+    return axios({
+      method: "post",
+      url: `misc/branch/1/`,
+      headers: { "Content-Type": "application/json" },
+      data: data,
+    })
+      .then((response) => {})
+      .catch((error) => {
+        return { message: "Login Failed", valid: false };
       });
   }
 

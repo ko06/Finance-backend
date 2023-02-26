@@ -224,6 +224,16 @@ function Profile({activeBranchID}) {
       .catch((err) => {});
   };
 
+
+  let createCenter = (activeBranchID) => {
+    PDService.getCenters(activeBranchID)
+      .then((res) => {
+        let data = res.results;
+        setCenters(data);
+      })
+      .catch((err) => {});
+  };
+
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result));
