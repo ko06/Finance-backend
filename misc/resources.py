@@ -67,7 +67,7 @@ class CenterList(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        queryset = Center.objects.get(branch=self.kwargs.get("id"))
+        queryset = Center.objects.filter(branch=self.kwargs.get("id"))
         return queryset
 
     def post(self, request, *args, **kwargs):

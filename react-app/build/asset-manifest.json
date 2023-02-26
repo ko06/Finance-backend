@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/static/css/main.b7a591d4.chunk.css",
-    "main.js": "/static/js/main.8e871e5b.chunk.js",
-    "main.js.map": "/static/js/main.8e871e5b.chunk.js.map",
+    "main.js": "/static/js/main.d147c67c.chunk.js",
+    "main.js.map": "/static/js/main.d147c67c.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.8bb18bea.js",
     "runtime-main.js.map": "/static/js/runtime-main.8bb18bea.js.map",
     "static/css/2.67608a4d.chunk.css": "/static/css/2.67608a4d.chunk.css",
-    "static/js/2.0e0ac702.chunk.js": "/static/js/2.0e0ac702.chunk.js",
-    "static/js/2.0e0ac702.chunk.js.map": "/static/js/2.0e0ac702.chunk.js.map",
+    "static/js/2.3dccecec.chunk.js": "/static/js/2.3dccecec.chunk.js",
+    "static/js/2.3dccecec.chunk.js.map": "/static/js/2.3dccecec.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.67608a4d.chunk.css.map": "/static/css/2.67608a4d.chunk.css.map",
     "static/css/main.b7a591d4.chunk.css.map": "/static/css/main.b7a591d4.chunk.css.map",
-    "static/js/2.0e0ac702.chunk.js.LICENSE.txt": "/static/js/2.0e0ac702.chunk.js.LICENSE.txt",
-    "static/js/main.8e871e5b.chunk.js.LICENSE.txt": "/static/js/main.8e871e5b.chunk.js.LICENSE.txt",
+    "static/js/2.3dccecec.chunk.js.LICENSE.txt": "/static/js/2.3dccecec.chunk.js.LICENSE.txt",
+    "static/js/main.d147c67c.chunk.js.LICENSE.txt": "/static/js/main.d147c67c.chunk.js.LICENSE.txt",
     "static/media/bg-profile.9c36abe7.jpg": "/static/media/bg-profile.9c36abe7.jpg",
     "static/media/main.css": "/static/media/info-card-3.e73b3934.jpg",
     "static/media/center-1.b66ca1c0.jpeg": "/static/media/center-1.b66ca1c0.jpeg",
@@ -32,7 +32,6 @@
     "static/media/logo-slack.cd48b339.svg": "/static/media/logo-slack.cd48b339.svg",
     "static/media/logo-spotify.329bc760.svg": "/static/media/logo-spotify.329bc760.svg",
     "static/media/mastercard-logo.e1b9bed1.png": "/static/media/mastercard-logo.e1b9bed1.png",
-    "static/media/misson.07f65c53.jpeg": "/static/media/misson.07f65c53.jpeg",
     "static/media/office.52649a90.jpeg": "/static/media/office.52649a90.jpeg",
     "static/media/paypal-logo-2.e414836f.png": "/static/media/paypal-logo-2.e414836f.png",
     "static/media/pencil.17725857.svg": "/static/media/pencil.17725857.svg",
@@ -44,8 +43,8 @@
   "entrypoints": [
     "static/js/runtime-main.8bb18bea.js",
     "static/css/2.67608a4d.chunk.css",
-    "static/js/2.0e0ac702.chunk.js",
+    "static/js/2.3dccecec.chunk.js",
     "static/css/main.b7a591d4.chunk.css",
-    "static/js/main.8e871e5b.chunk.js"
+    "static/js/main.d147c67c.chunk.js"
   ]
 }
