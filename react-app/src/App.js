@@ -22,11 +22,16 @@ import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 import { useState, useEffect } from "react";
 import PDService from "./service/service";
+import { useHistory } from "react-router-dom";
+import { message, Space, Spin } from "antd";
 
 function App() {
+  let history = useHistory();
   const [branches, setBranches] = useState([]);
   const [activeBranchID, setActiveBranchID] = useState(null);
   const [staffs, setStaffs] = useState([]);
+  const [isWhoamILoading, setIsWhoamILoading] = useState(true);
+  const [user, setUser] = useState({});
 
   let getStaffList = (id) => {
     let data;
@@ -44,24 +49,57 @@ function App() {
       .then((res) => {
         data = res.results;
         setBranches(data);
-        setActiveBranchID(data[0]['id'])
+        setActiveBranchID(data[0]["id"]);
+      })
+      .catch((err) => {});
+  };
+
+  let whoami = () => {
+    PDService.whoami()
+      .then((res) => {
+        if(user.id){
+          return
+        }
+        if (res?.id) {
+          setUser(res.results);
+          message.success(`Welcome ${res.username}`);
+          history.push("/dashboard");
+        } else {
+          history.push("/");
+        }
+        setIsWhoamILoading(false);
       })
       .catch((err) => {});
   };
 
   useEffect(() => {
-    if (activeBranchID){
-      console.log(activeBranchID)
+    if (!(user && user.id)) {
+      whoami();
+    }
+  }, [whoami]);
+
+  useEffect(() => {
+    if (activeBranchID) {
       getStaffList(activeBranchID);
-    } 
-      
+    }
   }, [activeBranchID]);
 
   useEffect(() => {
-    getBranchesList();
-  }, []);
+    if (user?.role) {
+      getBranchesList();
+    }
+  }, [user]);
 
-  return (
+  return isWhoamILoading ? (
+    <div
+      style={{ height: "100vh" }}
+      className={"aligin-center d-flex justify-center justify-content-center"}
+    >
+      <Space size="middle">
+        <Spin size="large" />
+      </Space>
+    </div>
+  ) : (
     <div className="App">
       <Switch>
         <Route path="/" exact component={SignIn} />

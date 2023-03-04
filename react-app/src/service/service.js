@@ -15,25 +15,34 @@ class APIService {
         "Authorization"
       ] = `Token ${window.localStorage.getItem("accessToken")}`;
     }
+    let getCookie = name => {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + '=') {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+    
+      return cookieValue;
+    };
+
+    axios.defaults.headers.common['X-CSRFToken'] =
+    getCookie('csrftoken');
   }
 
-  login(data) {
-    return axios({
-      method: "post",
-      url: `/accounts/login/`,
-      headers: { "Content-Type": "application/json" },
-      data: data,
-    })
+  whoami() {
+    return axios
+      .get("/accounts/whoami")
       .then((response) => {
-        debugger;
-        window.localStorage.setItem(
-          "accessToken",
-          JSON.stringify(response.data.token)
-        );
-        return { message: "Login Successfully", valid: true };
+        return response.data;
       })
-      .catch((error) => {
-        return { message: "Login Failed", valid: false };
+      .catch((err) => {
+        return;
       });
   }
 
@@ -51,17 +60,6 @@ class APIService {
   loadLiveWorkshops(url, query) {
     return axios
       .get(url || `/api/lookup/events/?filter=${query}`)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((err) => {
-        return;
-      });
-  }
-
-  whoami() {
-    return axios
-      .get("/api/whoami/")
       .then((response) => {
         return response.data;
       })

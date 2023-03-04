@@ -124,6 +124,9 @@ class Role(models.Model):
     deletedOn = models.TimeField(auto_now=True)
     deletedBy = models.BigIntegerField(blank=True,
         null=True)
+    
+    def __str__(self):
+      return self.role
 
 class Center(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
