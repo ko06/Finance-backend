@@ -81,8 +81,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "finance",
-        "USER": "root",
-        "PASSWORD": "Itsmyql#+135",
+        "USER": "admin",
+        "PASSWORD": "rajfamily349",
         "HOST": "database-2.cszk1vlew3sx.us-east-2.rds.amazonaws.com",
         "PORT": "3306",
     }
