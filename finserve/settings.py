@@ -82,12 +82,13 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "finance",
         "USER": "root",
-        "PASSWORD": "root",
-        "HOST": "localhost",
+        "PASSWORD": "Itsmyql#+135",
+        "HOST": "database-2.cszk1vlew3sx.us-east-2.rds.amazonaws.com",
         "PORT": "3306",
     }
 }
 
+#
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
