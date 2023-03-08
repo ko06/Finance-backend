@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-(!5ngh2ctsx^2$*$7%y4p&5*3e3c%n)@xt%7&6jr%+!53kj0ko
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,13 +81,14 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "finance",
-        "USER": "root",
-        "PASSWORD": "root",
-        "HOST": "localhost",
+        "USER": "admin",
+        "PASSWORD": "rajfamily349",
+        "HOST": "database-2.cszk1vlew3sx.us-east-2.rds.amazonaws.com",
         "PORT": "3306",
     }
 }
 
+#
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
