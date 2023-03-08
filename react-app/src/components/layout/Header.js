@@ -259,6 +259,7 @@ function Header({
   handleFixedNavbar,
   setActiveBranchID,
   branches,
+  isAdmin,
 }) {
   const { Title, Text } = Typography;
 
@@ -272,9 +273,11 @@ function Header({
 
   return (
     <>
-      <div className="setting-drwer" onClick={showDrawer}>
-        {setting}
-      </div>
+      {isAdmin && (
+        <div className="setting-drwer" onClick={showDrawer}>
+          {setting}
+        </div>
+      )}
       <Row gutter={[24, 0]}>
         <Col span={24} md={6}>
           <Breadcrumb>
@@ -307,9 +310,11 @@ function Header({
               </a>
             </Dropdown>
           </Badge> */}
-          <Button type="link" onClick={showDrawer}>
-            {logsetting}
-          </Button>
+          {isAdmin && (
+            <Button type="link" onClick={showDrawer}>
+              {logsetting}
+            </Button>
+          )}
           <Button
             type="link"
             className="sidebar-toggler"
@@ -339,9 +344,9 @@ function Header({
                 defaultValue={branches[0]?.id}
                 onChange={(value) => setActiveBranchID(value)}
               >
-                {branches.map((branch) => 
+                {branches.map((branch) => (
                   <Select.Option value={branch.id}>{branch.name}</Select.Option>
-                )}
+                ))}
               </Select>
               {/* <div className="sidebar-color">
                 <Title level={5}>Sidebar Color</Title>

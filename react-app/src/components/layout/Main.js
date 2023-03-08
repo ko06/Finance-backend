@@ -19,7 +19,7 @@ import Footer from "./Footer";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children, setActiveBranchID, branches }) {
+function Main({ children, setActiveBranchID, branches, isAdmin, isStaff }) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#1890ff");
@@ -74,7 +74,7 @@ function Main({ children, setActiveBranchID, branches }) {
             }`}
             style={{ background: sidenavType }}
           >
-            <Sidenav color={sidenavColor} />
+            <Sidenav isStaff={isStaff} color={sidenavColor} />
           </Sider>
         </Layout>
       </Drawer>
@@ -99,6 +99,7 @@ function Main({ children, setActiveBranchID, branches }) {
           <Affix>
             <AntHeader className={`${fixed ? "ant-header-fixed" : ""}`}>
               <Header
+                isAdmin={isAdmin}
                 onPress={openDrawer}
                 name={pathname}
                 subName={pathname}
@@ -112,6 +113,7 @@ function Main({ children, setActiveBranchID, branches }) {
           <AntHeader className={`${fixed ? "ant-header-fixed" : ""}`}>
             <Header
               setActiveBranchID={setActiveBranchID}
+              isAdmin={isAdmin}
               branches={branches}
               onPress={openDrawer}
               name={pathname}

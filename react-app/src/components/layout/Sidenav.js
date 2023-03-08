@@ -15,7 +15,7 @@ import { Menu, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
-function Sidenav({ color }) {
+function Sidenav({ color,isStaff }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
 
@@ -168,19 +168,21 @@ function Sidenav({ color }) {
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        <Menu.Item key="1">
-          <NavLink to="/dashboard">
-            <span
-              className="icon"
-              style={{
-                background: page === "dashboard" ? color : "",
-              }}
-            >
-              {dashboard}
-            </span>
-            <span className="label">Dashboard</span>
-          </NavLink>
-        </Menu.Item>
+        {!isStaff && (
+          <Menu.Item key="1">
+            <NavLink to="/dashboard">
+              <span
+                className="icon"
+                style={{
+                  background: page === "dashboard" ? color : "",
+                }}
+              >
+                {dashboard}
+              </span>
+              <span className="label">Dashboard</span>
+            </NavLink>
+          </Menu.Item>
+        )}
         {/* <Menu.Item key="2">
           <NavLink to="/tables">
             <span

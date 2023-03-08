@@ -20,16 +20,26 @@ from misc.models import Role
 def who_am_i(request):
         user = request.user
         role = Role.objects.filter(userId=user.id)
-        role_type = role[0].role
-        return Response({
-            "id": user.id,
-            "username": user.username,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "email": user.email,
-            "is_admin": role_type == "AD",
-            "is_branch_manager": role_type == "BM",
-            "is_staff": role_type == "ST",
-        }
-    )
+        try:
+            role_type = role[0].role
+            return Response({
+                "id": user.id,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+                "is_admin": role_type == "AD",
+                "is_branch_manager": role_type == "BM",
+                "is_staff": role_type == "ST",
+                })
+            
+        except Exception as e:
+              return Response({
+                  "message": 'user not available' 
+              })
+
+              
+        
+        
+    
 

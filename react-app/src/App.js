@@ -57,19 +57,22 @@ function App() {
   let whoami = () => {
     PDService.whoami()
       .then((res) => {
-        if(user.id){
-          return
+        if (user.id) {
+          return;
         }
         if (res?.id) {
-          setUser(res.results);
+          setUser(res);
           message.success(`Welcome ${res.username}`);
           history.push("/dashboard");
         } else {
           history.push("/");
         }
         setIsWhoamILoading(false);
+
       })
-      .catch((err) => {});
+      .catch((err) => {
+        history.push("/");
+      });
   };
 
   useEffect(() => {
@@ -85,7 +88,7 @@ function App() {
   }, [activeBranchID]);
 
   useEffect(() => {
-    if (user?.role) {
+    if (user) {
       getBranchesList();
     }
   }, [user]);
@@ -106,19 +109,23 @@ function App() {
         <Main
           branches={branches}
           setActiveBranchID={(value) => setActiveBranchID(value)}
+          isAdmin={user.is_admin}
+          isStaff={user.is_staff}
         >
-          <Route
-            exact
-            path="/dashboard"
-            render={(props) => (
-              <Home
-                {...props}
-                setActiveBranchID={(value) => setActiveBranchID(value)}
-                activeBranchID={activeBranchID}
-                staffs={staffs}
-              ></Home>
-            )}
-          />
+          {!user.is_staff && (
+            <Route
+              exact
+              path="/dashboard"
+              render={(props) => (
+                <Home
+                  {...props}
+                  setActiveBranchID={(value) => setActiveBranchID(value)}
+                  activeBranchID={activeBranchID}
+                  staffs={staffs}
+                ></Home>
+              )}
+            />
+          )}
           <Route exact path="/billing" component={Billing} />
           <Route
             exact
