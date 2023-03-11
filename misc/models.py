@@ -126,7 +126,7 @@ class Role(models.Model):
         null=True)
     
     def __str__(self):
-      return self.role
+      return self.userId.email+"("+self.role+")"
 
 class Center(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)

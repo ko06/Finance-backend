@@ -22,6 +22,7 @@ def who_am_i(request):
         role = Role.objects.filter(userId=user.id)
         try:
             role_type = role[0].role
+            blood_type = role[0].blood_type
             return Response({
                 "id": user.id,
                 "username": user.username,
@@ -31,6 +32,7 @@ def who_am_i(request):
                 "is_admin": role_type == "AD",
                 "is_branch_manager": role_type == "BM",
                 "is_staff": role_type == "ST",
+                "blood_type": blood_type, 
                 })
             
         except Exception as e:

@@ -177,7 +177,7 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-function Home({ activeBranchID, staffs }) {
+function Home({ activeBranchID, staffs, isStaff }) {
   let text = "asdfdsfg";
   const onChange = (key) => {
     console.log(key);
@@ -208,17 +208,19 @@ function Home({ activeBranchID, staffs }) {
                 <Radio.Button value="b">TODAY</Radio.Button>
                 <Radio.Button value="c">TOMORROW</Radio.Button>
               </Radio.Group>
-              <div
-                style={{ paddingLeft: 20 }}
-                className="header-col header-btn"
-              >
-                <Button
-                  type="primary"
-                  onClick={() => setAddCenterInfo({ status: true })}
+              {!isStaff && (
+                <div
+                  style={{ paddingLeft: 20 }}
+                  className="header-col header-btn"
                 >
-                  New Center
-                </Button>
-              </div>
+                  <Button
+                    type="primary"
+                    onClick={() => setAddCenterInfo({ status: true })}
+                  >
+                    New Center
+                  </Button>
+                </div>
+              )}
             </Col>
             <Col span={24} md={24} className="col-info">
               <Collapse defaultActiveKey={["1"]} onChange={onChange}>
@@ -277,12 +279,13 @@ function Home({ activeBranchID, staffs }) {
                 style={{ paddingLeft: 20 }}
                 className="header-col header-btn"
               >
-                <Button
+                Available Loans
+                {/* <Button
                   type="primary"
                   onClick={() => setAddLoanInfo({ status: true })}
                 >
                   New Loan
-                </Button>
+                </Button> */}
               </div>
             </Col>
             <Col span={24} md={24} className="col-info">

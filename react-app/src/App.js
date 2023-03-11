@@ -14,13 +14,14 @@ import Home from "./pages/Home";
 import Tables from "./pages/Tables";
 import Billing from "./pages/Billing";
 import Profile from "./pages/Profile";
+import MyActivity from "./pages/MyActivity";
 import SignIn from "./pages/SignIn";
 import Settings from "./pages/Settings";
 import Main from "./components/layout/Main";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PDService from "./service/service";
 import { useHistory } from "react-router-dom";
 import { message, Space, Spin } from "antd";
@@ -54,31 +55,26 @@ function App() {
       .catch((err) => {});
   };
 
-  let whoami = () => {
+  let whoami = useCallback(() => {
     PDService.whoami()
       .then((res) => {
-        if (user.id) {
-          return;
-        }
+        debugger;
         if (res?.id) {
           setUser(res);
           message.success(`Welcome ${res.username}`);
-          history.push("/dashboard");
+          history.push("/myactivity");
         } else {
           history.push("/");
         }
         setIsWhoamILoading(false);
-
       })
       .catch((err) => {
         history.push("/");
       });
-  };
+  }, []);
 
   useEffect(() => {
-    if (!(user && user.id)) {
-      whoami();
-    }
+    whoami();
   }, [whoami]);
 
   useEffect(() => {
@@ -105,7 +101,20 @@ function App() {
   ) : (
     <div className="App">
       <Switch>
-        <Route path="/" exact component={SignIn} />
+        <Route
+          path="/"
+          exact
+          component={SignIn}
+          render={(props) => (
+            <SignIn
+              {...props}
+              setActiveBranchID={(value) => setActiveBranchID(value)}
+              activeBranchID={activeBranchID}
+              staffs={staffs}
+              whoami={() => whoami()}
+            ></SignIn>
+          )}
+        />
         <Main
           branches={branches}
           setActiveBranchID={(value) => setActiveBranchID(value)}
@@ -126,17 +135,31 @@ function App() {
               )}
             />
           )}
-          <Route exact path="/billing" component={Billing} />
+          <Route exact path="/profile"
+           render={(props) => (
+            <Profile
+              {...props}
+              setActiveBranchID={(value) => setActiveBranchID(value)}
+              activeBranchID={activeBranchID}
+              staffs={staffs}
+              user={user}
+              isAdmin={user.is_admin}
+              isStaff={user.is_staff}
+            ></Profile>
+          )}/>
           <Route
             exact
-            path="/profile"
+            path="/myactivity"
             render={(props) => (
-              <Profile
+              <MyActivity
                 {...props}
                 setActiveBranchID={(value) => setActiveBranchID(value)}
                 activeBranchID={activeBranchID}
                 staffs={staffs}
-              ></Profile>
+                user={user}
+                isAdmin={user.is_admin}
+                isStaff={user.is_staff}
+              ></MyActivity>
             )}
           />
           <Route
@@ -148,6 +171,8 @@ function App() {
                 setActiveBranchID={(value) => setActiveBranchID(value)}
                 activeBranchID={activeBranchID}
                 staffs={staffs}
+                isAdmin={user.is_admin}
+                isStaff={user.is_staff}
               ></Settings>
             )}
           />

@@ -114,10 +114,11 @@ export default class SignIn extends Component {
       PublicService.login(values)
         .then((data) => {
           if (data.valid) {
-            message.success("This is a normal message");
-            this.props.history.push("/dashboard");
+            message.success("Logged In Successfully");
+            this.props.whoami()
+            // this.props.history.push("/dashboard");
           } else {
-            message.error("This is a normal message");
+            message.error("Please Provide Valid Details");
           }
         })
         .catch((err) => {});
@@ -229,7 +230,7 @@ export default class SignIn extends Component {
                   Enter your email and password to sign in
                 </Title>
                 <Form
-                  initialValues={{ username: "admin", password: "admin" }}
+                  initialValues={{ username: "saravanan", password: "Selva123" }}
                   onFinish={onFinish}
                   layout="vertical"
                   className="row-col"

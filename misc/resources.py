@@ -72,7 +72,7 @@ class CenterList(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         center = Center.objects.create(
-            user=User.objects.get(id=request.user.id),
+            user=User.objects.get(id=request.data["id"]),
             branch=Branch.objects.get(id=self.kwargs.get("id")),
             name=request.data["name"],
             description=request.data["description"],

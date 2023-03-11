@@ -92,7 +92,7 @@ function Main({ children, setActiveBranchID, branches, isAdmin, isStaff }) {
         }`}
         style={{ background: sidenavType }}
       >
-        <Sidenav color={sidenavColor} />
+        <Sidenav isStaff={isStaff} color={sidenavColor} />
       </Sider>
       <Layout>
         {fixed ? (
