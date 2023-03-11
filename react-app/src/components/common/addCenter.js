@@ -43,19 +43,19 @@ const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
       title="Add a center to - DGL"
       onOk={() => console.log("Done")}
       onCancel={() => onCancel()}
-      footer={[
-        <Button key="back" onClick={() => onCancel()}>
-          Return
-        </Button>,
-        <Button
-          key="submit"
-          type="primary"
-          // loading={loading}
-          onClick={handleOk}
-        >
-          Submit
-        </Button>,
-      ]}
+      // footer={[
+      //   <Button key="back" onClick={() => onCancel()}>
+      //     Return
+      //   </Button>,
+      //   <Button
+      //     key="submit"
+      //     type="primary"
+      //     // loading={loading}
+      //     onClick={handleOk}
+      //   >
+      //     Submit
+      //   </Button>,
+      // ]}
     >
       <Form
         labelCol={{
