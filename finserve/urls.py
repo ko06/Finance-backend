@@ -20,6 +20,10 @@ from accounts.urls import urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 
+admin.site.site_header  =  "GreenFinserv"  
+admin.site.site_title  =  "GreenFinserv"
+admin.site.index_title  =  "GreenFinserv Admin"
+
 urlpatterns = [
     path("/settings", home, name="settings"),
     path("", home, name="home"),

@@ -58,7 +58,6 @@ function App() {
   let whoami = useCallback(() => {
     PDService.whoami()
       .then((res) => {
-        debugger;
         if (res?.id) {
           setUser(res);
           message.success(`Welcome ${res.username}`);

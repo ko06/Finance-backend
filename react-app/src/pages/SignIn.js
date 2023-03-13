@@ -12,7 +12,7 @@
 import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
 import PublicService from "../service/publicService";
-
+import { PoweroffOutlined } from "@ant-design/icons";
 import {
   Layout,
   Menu,
@@ -109,19 +109,36 @@ const signin = [
 
 // export default class SignIn extends Component {
 export default class SignIn extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoginLoading: false,
+    };
+  }
   render() {
     const onFinish = (values) => {
+      this.setState({
+        isLoginLoading: true,
+      });
       PublicService.login(values)
         .then((data) => {
           if (data.valid) {
             message.success("Logged In Successfully");
-            this.props.whoami()
+            this.props.whoami();
             // this.props.history.push("/dashboard");
           } else {
             message.error("Please Provide Valid Details");
           }
+          this.setState({
+            isLoginLoading: false,
+          });
         })
-        .catch((err) => {});
+        .catch((err) => {
+          message.error("Please Provide Valid Details");
+          this.setState({
+            isLoginLoading: false,
+          });
+        });
     };
 
     return (
@@ -230,7 +247,10 @@ export default class SignIn extends Component {
                   Enter your email and password to sign in
                 </Title>
                 <Form
-                  initialValues={{ username: "saravanan", password: "Selva123" }}
+                  initialValues={{
+                    username: "saravanan",
+                    password: "Selva123",
+                  }}
                   onFinish={onFinish}
                   layout="vertical"
                   className="row-col"
@@ -277,6 +297,7 @@ export default class SignIn extends Component {
                       type="primary"
                       htmlType="submit"
                       style={{ width: "100%" }}
+                      loading={this.state.isLoginLoading}
                     >
                       SIGN IN
                     </Button>

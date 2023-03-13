@@ -39,9 +39,3 @@ def who_am_i(request):
               return Response({
                   "message": 'user not available' 
               })
-
-              
-        
-        
-    
-
