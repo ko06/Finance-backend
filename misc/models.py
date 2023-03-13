@@ -97,6 +97,7 @@ class Relationship(models.Model):
 
 class Branch(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
+    shortName = models.CharField(max_length=255, blank=False, null=False)
     status = models.SmallIntegerField()
     addedOn = models.TimeField(auto_now_add=True)
     addedBy = models.BigIntegerField()
@@ -130,6 +131,8 @@ class Role(models.Model):
 
 class Center(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
+    tamilName = models.CharField(max_length=255, blank=False, null=False)
+    uniqueName = models.CharField(max_length=200)
     description = models.CharField(max_length=1023, blank=True, null=True)
     image = models.ImageField(upload_to="%Y/%m/%d/")
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
@@ -146,13 +149,26 @@ class Center(models.Model):
     deletedOn = models.DateTimeField(auto_now=True)
     deletedBy = models.BigIntegerField(blank=True,
         null=True)
+    
 
     def __str__(self):
       return self.name
+    
+    def save(self, *args, **kwargs):
+        import pdb;pdb.set_trace()
+        last_autonum = Center.objects.filter(id=1).order_by("-autonum")
+        #Use this if just to add the first record, then use just last_autonum=last_autonum[0].autonum
+        if last_autonum.count():
+            last_autonum=last_autonum[0].id
+        else:
+            last_autonum = 0
+        self.uniqueName = 'someConst%d' % (last_autonum + 1)
+        super(Center,self).save(*args,**kwargs)
 
 
 class Member(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
+    tamilName = models.CharField(max_length=255, blank=False, null=False)
     dob = models.DateTimeField(blank=False, null=False)
     age = models.CharField(max_length=1023, blank=True, null=True)
     email = models.CharField(max_length=1023, blank=True, null=True)

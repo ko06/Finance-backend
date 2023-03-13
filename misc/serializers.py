@@ -42,6 +42,7 @@ class BranchSerializer(serializers.ModelSerializer):
         model = Branch
         fields = (
             "name",
+            "shortName",
             "id"
         )
 
@@ -61,6 +62,6 @@ class CenterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Center
         fields = (
-            "name","id","image","user","time"
+            "name","id","image","user","time","uniqueName"
         )
         
