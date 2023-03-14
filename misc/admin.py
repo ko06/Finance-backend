@@ -11,38 +11,93 @@ from misc.models import (
 
 # Register your models here.
 
+
 class BranchAdmin(admin.ModelAdmin):
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields["status"].required = False
+        return form
+
+    def save_model(self, request, obj, form, change):
+        obj.status = 1
+        if obj.id == None:
+            obj.createdBy = request.user
+            obj.updatedBy = request.user
+            super().save_model(request, obj, form, change)
+
+        else:
+            super().save_model(request, obj, form, change)
+
     class Meta:
         model = Branch
         labels = {
-            "AddedBy": "Event Date Time (EST) ",
+            "AddedBy": "Person name",
         }
 
+
 class CenterAdmin(admin.ModelAdmin):
-    raw_id_fields = ("user","branch")
+    raw_id_fields = ("user", "branch")
+
+    def save_model(self, request, obj, form, change):
+        if obj.id == None:
+            obj.createdBy = request.user
+            obj.updatedBy = request.user
+            super().save_model(request, obj, form, change)
+
+        else:
+            super().save_model(request, obj, form, change)
+
     class Meta:
         model = Center
 
+
 class RoleAdmin(admin.ModelAdmin):
-    raw_id_fields = ("userId","branchId")
+    raw_id_fields = ("userId", "branchId")
+
+    def save_model(self, request, obj, form, change):
+        if obj.id == None:
+            obj.createdBy = request.user
+            obj.updatedBy = request.user
+
+            super().save_model(request, obj, form, change)
+
+        else:
+            super().save_model(request, obj, form, change)
+
     class Meta:
         model = Role
+
+
 class MemberAdmin(admin.ModelAdmin):
-    raw_id_fields = ("centerId","suretyRelation")
+    raw_id_fields = ("centerId", "suretyRelation")
+
+    def save_model(self, request, obj, form, change):
+        if obj.id == None:
+            obj.createdBy = request.user
+            super().save_model(request, obj, form, change)
+
+        else:
+            super().save_model(request, obj, form, change)
+
     class Meta:
         model = Member
+
 
 class CasteAdmin(admin.ModelAdmin):
     list_display = ("__str__", "name")
     search_fields = ("name",)
 
+
 class ReligionAdmin(admin.ModelAdmin):
     list_display = ("__str__", "name")
     search_fields = ("name",)
 
+
 class RelationshipAdmin(admin.ModelAdmin):
     list_display = ("__str__", "name")
     search_fields = ("name",)
+
 
 admin.site.register(Caste, CasteAdmin)
 admin.site.register(Religion, ReligionAdmin)
