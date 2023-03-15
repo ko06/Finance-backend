@@ -77,7 +77,7 @@ class CenterList(generics.ListCreateAPIView):
                 branch=Branch.objects.get(id=self.kwargs.get("id")),
                 name=request.data["name"],
                 description=request.data["description"],
-                dayOrder=request.data["dayorder"],
+                dayOrder=request.data["dayOrder"],
                 time = datetime.time(10, 33, 45)
             )
             center.save()

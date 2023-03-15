@@ -5,25 +5,32 @@ import {
   Form,
   Input,
   Button,
-  Radio,
   Select,
-  Cascader,
-  DatePicker,
-  InputNumber,
-  TreeSelect,
-  Switch,
-  Checkbox,
+  TimePicker,
   Upload,
   Modal,
 } from "antd";
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
   const [loading, setLoading] = useState(false);
 
-  const onFinish = (values) => {
-    handleOk(values);
+  const onFinish =  async(values) => {
+    const {name,staff_id,dayOrder,time,description} = values;
+    setLoading(true)
+    try{
+      const result = await PDService.addCenter({
+        staff_id,
+        name,
+        dayOrder,
+        time: time.format('HH:mm:ss'),
+        description,
+      })
+      setLoading(false);
+      onCancel();
+    }catch(e){
+
+    }
   };
 
   const getFile = (e) => {
@@ -37,21 +44,7 @@ const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
   
   
 
-  const handleOk = (values) => {
-    debugger;
-    setLoading(true)
-    PDService.addCenter({
-      name: "selva",
-      description: "this is dummy text",
-      day: "monday",
-      time: "6.30",
-      staff_id:'1' , // staff user Id
-    })
-      .then((res) => {
-        setLoading(false)
-      })
-      .catch((err) => {});
-  };
+
 
   return (
     <Modal
@@ -66,8 +59,10 @@ const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
         <Button
           key="submit"
           type="primary"
-          loading={loading}
-          onClick={handleOk}
+
+          form="addCenterForm"
+          htmlType="submit"
+          loading={loading} 
         >
           Submit
         </Button>,
@@ -80,21 +75,26 @@ const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
         wrapperCol={{
           span: 14,
         }}
+        id="addCenterForm"
         layout="horizontal"
-        onValuesChange={onFinish}
+        onFinish={onFinish}
+        onFinishFailed={(f)=>{
+          console.log(f)
+        }}
         // disabled={componentDisabled}
       >
-        <Form.Item name='name' label="Center Name">
+        <Form.Item name='name' label="Center Name"  rules={[{ required: true, message: 'Enter the name' }]}>
           <Input />
         </Form.Item>
-        <Form.Item name="staff_id" label="Staff">
+        <Form.Item name="staff_id" label="Staff"  rules={[{ required: true, message: 'Please select Staff' }]}>
           <Select>
             {staffs.map((staff) => (
               <Select.Option value={staff.id}>{staff.name}</Select.Option>
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="dayorder" label="Dayorder">
+        <Form.Item name="dayOrder" label="Dayorder"    rules={[{ required: true, message: 'Please select day!' }]}
+    >
           <Select>
             <Select.Option value="monday">Monday</Select.Option>
             <Select.Option value="tuesday">Tuesday</Select.Option>
@@ -117,10 +117,10 @@ const AddCenter = ({ addCenterInfo, onCancel, staffs }) => {
             </div>
           </Upload>
         </Form.Item>
-        <Form.Item name="time" label="TimePicker">
-          <DatePicker />
+        <Form.Item name="time" label="TimePicker" rules={[{ required: true, message: 'Please select time' }]}>
+        <TimePicker />
         </Form.Item>
-        <Form.Item name="description" label="Description">
+        <Form.Item name="description" label="Description" rules={[{ required: true, message: 'Please summarize the center' }]}>
           <TextArea rows={4} />
         </Form.Item>
       </Form>

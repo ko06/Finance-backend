@@ -11,8 +11,8 @@ RUN  apt-get  install -y nodejs
 
 RUN  apt-get  install -y  npm  python3-pip  
 RUN apt-get install python3-dev libmysqlclient-dev
-RUN pip3 install mysqlclient
 RUN python3 -m pip install Pillow
+RUN pip3 install mysqlclient
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8 
 #Install python dependancies
