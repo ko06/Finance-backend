@@ -71,15 +71,20 @@ class CenterList(generics.ListCreateAPIView):
         return queryset
 
     def post(self, request, *args, **kwargs):
-        center = Center.objects.create(
-            user=User.objects.get(id=request.data["id"]),
-            branch=Branch.objects.get(id=self.kwargs.get("id")),
-            name=request.data["name"],
-            description=request.data["description"],
-            dayOrder=request.data["dayorder"],
-            time = datetime.time(10, 33, 45)
-        )
-        center.save()
+        try:
+            center = Center.objects.create(
+                user=User.objects.get(id=request.data["staff_id"]),
+                branch=Branch.objects.get(id=self.kwargs.get("id")),
+                name=request.data["name"],
+                description=request.data["description"],
+                dayOrder=request.data["dayorder"],
+                time = datetime.time(10, 33, 45)
+            )
+            center.save()
+            return Response(request.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(e, status=status.HTTP_206_PARTIAL_CONTENT)
+
 
 
 class RoleList(generics.ListAPIView):
@@ -90,7 +95,7 @@ class RoleList(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-        queryset = Center.objects.filter(branch=self.kwargs.get("id"))
+        queryset = Role.objects.filter(branchId=self.kwargs.get("id"))
         return queryset
 
 

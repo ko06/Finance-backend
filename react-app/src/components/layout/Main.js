@@ -19,7 +19,14 @@ import Footer from "./Footer";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children, setActiveBranchID, branches, isAdmin, isStaff }) {
+function Main({
+  children,
+  setActiveBranchID,
+  activeBranchName,
+  branches,
+  isAdmin,
+  isStaff,
+}) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#1890ff");
@@ -113,6 +120,7 @@ function Main({ children, setActiveBranchID, branches, isAdmin, isStaff }) {
           <AntHeader className={`${fixed ? "ant-header-fixed" : ""}`}>
             <Header
               setActiveBranchID={setActiveBranchID}
+              activeBranchName={activeBranchName}
               isAdmin={isAdmin}
               branches={branches}
               onPress={openDrawer}

@@ -29,6 +29,7 @@ import { message, Space, Spin } from "antd";
 function App() {
   let history = useHistory();
   const [branches, setBranches] = useState([]);
+  const [activeBranchName, setActiveBranchName] = useState(null);
   const [activeBranchID, setActiveBranchID] = useState(null);
   const [staffs, setStaffs] = useState([]);
   const [isWhoamILoading, setIsWhoamILoading] = useState(true);
@@ -79,8 +80,10 @@ function App() {
   useEffect(() => {
     if (activeBranchID) {
       getStaffList(activeBranchID);
+      let name = branches.find(x => x.id === activeBranchID).name;
+      setActiveBranchName(name)
     }
-  }, [activeBranchID]);
+  }, [activeBranchID, branches]);
 
   useEffect(() => {
     if (user) {
@@ -116,6 +119,7 @@ function App() {
         />
         <Main
           branches={branches}
+          activeBranchName={activeBranchName}
           setActiveBranchID={(value) => setActiveBranchID(value)}
           isAdmin={user.is_admin}
           isStaff={user.is_staff}

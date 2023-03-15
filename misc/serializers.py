@@ -29,39 +29,33 @@ class ReligionSerializer(serializers.ModelSerializer):
             "description",
         )
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = (
-            "username",
-            "id",
-            "first_name"
-        )
+        fields = ("username", "id", "first_name")
+
+
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Branch
-        fields = (
-            "name",
-            "shortName",
-            "id"
-        )
+        fields = ("name", "shortName", "id")
 
 
 class RolesSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    # userId = UserSerializer()
+    name = serializers.SerializerMethodField()
 
+    def get_name(self, obj):
+        return obj.userId.first_name
     class Meta:
         model = Role
-        fields = (
-            "user",
-            "id"
-        )
+        fields = ("name", "id")
+
+
 class CenterSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
     class Meta:
         model = Center
-        fields = (
-            "name","id","image","user","time","shortName"
-        )
-        
+        fields = ("name", "id", "image", "user", "time", "shortName")

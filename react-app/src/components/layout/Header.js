@@ -38,26 +38,7 @@ import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import avtar from "../../assets/images/team-2.jpg";
 
-const ButtonContainer = styled.div`
-  .ant-btn-primary {
-    background-color: #1890ff;
-  }
-  .ant-btn-success {
-    background-color: #52c41a;
-  }
-  .ant-btn-yellow {
-    background-color: #fadb14;
-  }
-  .ant-btn-black {
-    background-color: #262626;
-    color: #fff;
-    border: 0px;
-    border-radius: 5px;
-  }
-  .ant-switch-active {
-    background-color: #1890ff;
-  }
-`;
+
 
 const bell = [
   <svg
@@ -258,6 +239,7 @@ function Header({
   handleSidenavType,
   handleFixedNavbar,
   setActiveBranchID,
+  activeBranchName,
   branches,
   isAdmin,
 }) {
@@ -294,7 +276,7 @@ function Header({
               style={{ textTransform: "capitalize" }}
             >
               {/* {subName.replace("/", "")}  */}
-              Branch - Dindugal
+              Branch - {activeBranchName}
             </span>
           </div>
         </Col>
