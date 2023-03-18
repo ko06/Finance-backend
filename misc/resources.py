@@ -1,7 +1,8 @@
 from rest_framework import generics, permissions, views, status
 from django.contrib.auth.models import User
-from .models import Branch, Caste, Center, Relationship, Religion, Role
+from .models import Branch, Caste, Center, Member, Relationship, Religion, Role
 from .serializers import (
+    MemberSerializer,
     RolesSerializer,
     BranchSerializer,
     CasteSerializer,
@@ -78,11 +79,54 @@ class CenterList(generics.ListCreateAPIView):
                 name=request.data["name"],
                 description=request.data["description"],
                 dayOrder=request.data["dayOrder"],
-                time = datetime.time(10, 33, 45)
+                time = request.data["time"]
             )
             center.save()
             return Response(request.data, status=status.HTTP_200_OK)
         except Exception as e:
+            return Response(e, status=status.HTTP_206_PARTIAL_CONTENT)
+
+class MemberList(generics.ListCreateAPIView):
+    model = Member
+    serializer_class = MemberSerializer
+    pagination_class = ListPagination
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = Member.objects.get(centerId=self.kwargs.get("id"))
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        try:
+            member = Member.objects.create(
+                centerId=Center.objects.get(id=self.kwargs.get("id")),
+                name=request.data["name"],
+                tamilName=request.data["tamil_name"],
+                dob=datetime.datetime.now(),
+                suretyAge=datetime.datetime.now(),
+                fatherName=request.data["f_name"],
+                motherName=request.data["m_name"],
+                religion=request.data["religion"],
+                occupation=request.data["occupation"],
+                suretyAadhar=request.data["surety_aadhaar_no"],
+                suretyName=request.data["surety_name"],
+                suretyRelation=request.data["relationship"],
+                yearsOfService=request.data["years_service"],
+                yearsOfHouse=request.data["years_of_house"],
+                martialDetails=request.data["marital_status"],
+                education=request.data["education"],
+                houseDetails=request.data["house"],
+                childrenCount=request.data["no_of_children"],
+                adultCount=request.data["no_of_adults"],
+                address=request.data["address"],
+                monthlyIncome=request.data["monthly_income"],
+                disabledPerson = False if request.data["disabled_person"] == 'true' else True
+            )
+            member.save()
+            return Response(request.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            import pdb;pdb.set_trace()
             return Response(e, status=status.HTTP_206_PARTIAL_CONTENT)
 
 

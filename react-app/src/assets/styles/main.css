@@ -3097,7 +3097,8 @@ th {
 .finserve-form .ant-form-item-control{
   margin-right: 10px;
 }
+
 .ant-form-item {
- min-width: 300px;
+ min-width: 200px;
 }
 

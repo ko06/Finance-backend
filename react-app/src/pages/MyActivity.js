@@ -203,7 +203,7 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
-function MyActivity({ activeBranchID, user }) {
+function MyActivity({ activeBranchID, user, isStaff }) {
   const [imageURL, setImageURL] = useState(false);
   const [, setLoading] = useState(false);
   const [centers, setCenters] = useState([]);
@@ -389,43 +389,83 @@ function MyActivity({ activeBranchID, user }) {
         }
       >
         <Row gutter={[24, 24]}>
-          {centers
-            .filter((center) => user.id === center.user.id)
-            .map((p, index) => (
-              <Col span={16} md={12} xl={8} key={p.id + "center"}>
-                <Card
-                  bordered={false}
-                  className="card-project"
-                  cover={<img alt="example" src={p.image} />}
-                >
-                  <div className="card-tag">{p.name} </div>
-                  <div className="card-time">
-                    <div>{p.lead} </div>
-                    <div>{p.time}</div>
-                  </div>
-                  {/* <h5>{p.titile}</h5> */}
-                  {/* <p>{p.disciption}</p> */}
-                  <Row gutter={[6, 0]} className="card-footer">
-                    <Col span={12}>
-                      <Button
-                        type="button ant-btn-primary"
-                        onClick={() => setAddMemberInfo({ status: true })}
-                      >
-                        Add Member
-                      </Button>
-                    </Col>
-                    <Col span={12}>
-                      <Button
-                        type="button"
-                        onClick={() => setUpdateMoneyInfo({ status: true })}
-                      >
-                        UPDATE AMOUNT
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
-            ))}
+          {isStaff
+            ? centers
+                .filter((center) => user.id === center.user.id)
+                .map((p, index) => (
+                  <Col span={16} md={12} xl={8} key={p.id + "center"}>
+                    <Card
+                      bordered={false}
+                      className="card-project"
+                      cover={<img alt="example" src={p.image} />}
+                    >
+                      <div className="card-tag">{p.name} </div>
+                      <div className="card-time">
+                        <div>{p.lead} </div>
+                        <div>{p.time}</div>
+                      </div>
+                      {/* <h5>{p.titile}</h5> */}
+                      {/* <p>{p.disciption}</p> */}
+                      <Row gutter={[6, 0]} className="card-footer">
+                        <Col span={12}>
+                          <Button
+                            type="button ant-btn-primary"
+                            onClick={() =>
+                              setAddMemberInfo({ status: true, name: p.name, id: p.id })
+                            }
+                          >
+                            Add Member
+                          </Button>
+                        </Col>
+                        <Col span={12}>
+                          <Button
+                            type="button"
+                            onClick={() =>
+                              setUpdateMoneyInfo({ status: true, name: p.name })
+                            }
+                          >
+                            UPDATE AMOUNT
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </Col>
+                ))
+            : centers.map((p, index) => (
+                <Col span={16} md={12} xl={8} key={p.id + "center"}>
+                  <Card
+                    bordered={false}
+                    className="card-project"
+                    cover={<img alt="example" src={p.image} />}
+                  >
+                    <div className="card-tag">{p.name} </div>
+                    <div className="card-time">
+                      <div>{p.lead} </div>
+                      <div>{p.time}</div>
+                    </div>
+                    {/* <h5>{p.titile}</h5> */}
+                    {/* <p>{p.disciption}</p> */}
+                    <Row gutter={[6, 0]} className="card-footer">
+                      <Col span={12}>
+                        <Button
+                          type="button ant-btn-primary"
+                          onClick={() => setAddMemberInfo({ status: true, name: p.name, id:p.id })}
+                        >
+                          Add Member
+                        </Button>
+                      </Col>
+                      <Col span={12}>
+                        <Button
+                          type="button"
+                          onClick={() => setUpdateMoneyInfo({ status: true, name: p.name })}
+                        >
+                          UPDATE AMOUNT
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              ))}
 
           {/* <Col span={24} md={12} xl={6}>
             <Upload
@@ -447,7 +487,7 @@ function MyActivity({ activeBranchID, user }) {
         </Row>
       </Card>
 
-      <Card
+      {/* <Card
         bodyStyle={{ display: "none" }}
         style={{ marginBottom: "20px" }}
         title={
@@ -480,54 +520,57 @@ function MyActivity({ activeBranchID, user }) {
               </Col>
               <Col span={24} md={24} className="col-info">
                 <Collapse defaultActiveKey={["1"]} onChange={onChange}>
-                  {centers
-                    .filter((c) => user.id === c.user.id)
-                    .map((center, index) => (
-                      <Panel header={center.name} key="1">
-                        <Button
-                          style={{ marginBottom: "20px" }}
-                          type="primary"
-                          // onClick={() => setAddMemberInfo({ status: true })}
-                        >
-                          Update Money
-                        </Button>
-                        <Table
-                          columns={columns1}
-                          dataSource={data}
-                          bordered
-                          size="middle"
-                          scroll={{
-                            x: "calc(700px + 50%)",
-                            y: 700,
-                          }}
-                        />
-                      </Panel>
-                    ))}
-                  {/* <Panel header="கிழக்கு மரியானதா தெரு- 01" key="1">
-                    <Button
-                      style={{ marginBottom: "20px" }}
-                      type="primary"
-                      // onClick={() => setAddMemberInfo({ status: true })}
-                    >
-                      Update Money
-                    </Button>
-                    <Table
-                      columns={columns1}
-                      dataSource={data}
-                      bordered
-                      size="middle"
-                      scroll={{
-                        x: "calc(700px + 50%)",
-                        y: 700,
-                      }}
-                    />
-                  </Panel> */}
+                  {isStaff
+                    ? centers
+                        .filter((c) => user.id === c.user.id)
+                        .map((center, index) => (
+                          <Panel header={center.name} key="1">
+                            <Button
+                              style={{ marginBottom: "20px" }}
+                              type="primary"
+                              // onClick={() => setAddMemberInfo({ status: true })}
+                            >
+                              Update Money
+                            </Button>
+                            <Table
+                              columns={columns1}
+                              dataSource={data}
+                              bordered
+                              size="middle"
+                              scroll={{
+                                x: "calc(700px + 50%)",
+                                y: 700,
+                              }}
+                            />
+                          </Panel>
+                        ))
+                    : centers.map((center, index) => (
+                        <Panel header={center.name} key="1">
+                          <Button
+                            style={{ marginBottom: "20px" }}
+                            type="primary"
+                            // onClick={() => setAddMemberInfo({ status: true })}
+                          >
+                            Update Money
+                          </Button>
+                          <Table
+                            columns={columns1}
+                            dataSource={data}
+                            bordered
+                            size="middle"
+                            scroll={{
+                              x: "calc(700px + 50%)",
+                              y: 700,
+                            }}
+                          />
+                        </Panel>
+                      ))}
                 </Collapse>
               </Col>
             </Row>
           </>
         }
-      ></Card>
+      ></Card> */}
       <AddMember
         onCancel={() => setAddMemberInfo({ status: false })}
         addMemberInfo={addMemberInfo}

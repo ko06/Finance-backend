@@ -1,5 +1,5 @@
 from rest_framework import serializers, generics
-from .models import Branch, Caste, Center, Relationship, Religion, Role
+from .models import Branch, Caste, Center, Member, Relationship, Religion, Role
 from django.contrib.auth.models import User
 
 
@@ -59,3 +59,10 @@ class CenterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Center
         fields = ("name", "id", "image", "user", "time", "shortName")
+
+class MemberSerializer(serializers.ModelSerializer):
+    # centerId = CenterSerializer
+
+    class Meta:
+        model = Member
+        fields = "__all__"

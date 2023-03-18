@@ -66,6 +66,16 @@ DAYS_TYPE = (
     ("friday", "Friday"),
 )
 
+RELATIONSHIP_TYPE = (
+    ("father", "Father"),
+    ("mother", "Mother"),
+    ("son", "Son"),
+    ("daughter", "Daughter"),
+    ("brother", "Brother"),
+    ("father-in-law", "Father In Law"),
+    ("mother-in-law", "Mother In Law"),
+)
+
 
 class TimeStampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -135,6 +145,7 @@ class Branch(TimeStampMixin):
 
     def __str__(self):
         return self.name
+
 
 class Role(TimeStampMixin):
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -214,16 +225,16 @@ class Center(TimeStampMixin):
 class Member(TimeStampMixin):
     name = models.CharField(max_length=255, blank=False, null=False)
     tamilName = models.CharField(max_length=255, blank=False, null=False)
-    dob = models.DateTimeField(blank=False, null=False)
-    age = models.CharField(max_length=1023, blank=True, null=True)
+    address = models.CharField(max_length=2055, blank=False, null=False)
+    dob = models.DateField(blank=False, null=False)
     email = models.CharField(max_length=1023, blank=True, null=True)
     aadhar = models.CharField(max_length=1023, blank=False, null=False, unique=True)
     fatherName = models.CharField(max_length=255, blank=False, null=False)
     motherName = models.CharField(max_length=255, blank=False, null=False)
     disabledPerson = models.BooleanField(default=False)
     suretyName = models.CharField(max_length=255, blank=False, null=False)
-    suretyAge = models.CharField(max_length=1023, blank=True, null=True)
-    suretyRelation = models.ForeignKey(Relationship, on_delete=models.CASCADE)
+    suretyAge = models.DateField(blank=False, null=False)
+    suretyRelation = models.CharField(max_length=200, choices=RELATIONSHIP_TYPE)
     suretyAadhar = models.CharField(max_length=1023, blank=True, null=True, unique=True)
     suretyMobile = models.CharField(max_length=1023, blank=True, null=True, unique=True)
     occupation = models.CharField(max_length=200, choices=OCCUPATION_TYPE)
@@ -233,12 +244,14 @@ class Member(TimeStampMixin):
     martialDetails = models.CharField(max_length=200, choices=MARTIAL_TYPE)
     houseDetails = models.CharField(max_length=200, choices=HOUSE_TYPE)
     yearsOfHouse = models.PositiveIntegerField()
+    yearsOfService = models.PositiveIntegerField()
     adultCount = models.PositiveIntegerField(default=0)
     childrenCount = models.PositiveIntegerField(default=0)
     mobile = models.CharField(max_length=1023, blank=True, null=True)
     panNo = models.CharField(max_length=1023, blank=True, null=True)
     centerId = models.ForeignKey(Center, on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=1)
+    order = models.IntegerField(default=1)
     updatedBy = models.ForeignKey(
         User,
         editable=False,
@@ -247,7 +260,14 @@ class Member(TimeStampMixin):
         blank=True,
         on_delete=models.CASCADE,
     )
-    deletedBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    deletedBy = models.ForeignKey(
+        User,
+        editable=False,
+        related_name="member_deleted_user",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
     createdBy = models.ForeignKey(
         User,
         related_name="member_created_user",
@@ -259,3 +279,11 @@ class Member(TimeStampMixin):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        orders = Member.objects.all()
+
+        if orders.exists() and self._state.adding:
+            last_order = orders.latest("order")
+            self.order = int(last_order.order) + 1
+        super().save(*args, **kwargs)

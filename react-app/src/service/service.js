@@ -15,24 +15,23 @@ class APIService {
         "Authorization"
       ] = `Token ${window.localStorage.getItem("accessToken")}`;
     }
-    let getCookie = name => {
+    let getCookie = (name) => {
       var cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
+      if (document.cookie && document.cookie !== "") {
+        var cookies = document.cookie.split(";");
         for (var i = 0; i < cookies.length; i++) {
           var cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === name + '=') {
+          if (cookie.substring(0, name.length + 1) === name + "=") {
             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
             break;
           }
         }
       }
-    
+
       return cookieValue;
     };
 
-    axios.defaults.headers.common['X-CSRFToken'] =
-    getCookie('csrftoken');
+    axios.defaults.headers.common["X-CSRFToken"] = getCookie("csrftoken");
   }
 
   whoami() {
@@ -122,6 +121,19 @@ class APIService {
       })
       .catch((err) => {
         return;
+      });
+  }
+
+  addMember(data, id) {
+    return axios({
+      method: "post",
+      url: `misc/member/${id}/`,
+      headers: { "Content-Type": "application/json" },
+      data: data,
+    })
+      .then((response) => {})
+      .catch((error) => {
+        return { message: "Login Failed", valid: false };
       });
   }
 }

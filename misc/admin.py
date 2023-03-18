@@ -13,7 +13,6 @@ from misc.models import (
 
 
 class BranchAdmin(admin.ModelAdmin):
-    
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields["status"].required = False
@@ -70,7 +69,9 @@ class RoleAdmin(admin.ModelAdmin):
 
 
 class MemberAdmin(admin.ModelAdmin):
-    raw_id_fields = ("centerId", "suretyRelation")
+    raw_id_fields = ("centerId",)
+    search_fields = ("name",)
+    list_filter = ("centerId",)
 
     def save_model(self, request, obj, form, change):
         if obj.id == None:
