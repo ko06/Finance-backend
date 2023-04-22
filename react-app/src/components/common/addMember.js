@@ -15,6 +15,7 @@ import {
   Checkbox,
   Upload,
   Modal,
+  message,
 } from "antd";
 const { TextArea } = Input;
 
@@ -72,7 +73,7 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
 
   const onFinish = async (values) => {
     try {
-      const {
+      let {
         name,
         tamil_name,
         dob,
@@ -97,6 +98,8 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
         years_of_house,
       } = values;
       setLoading(true);
+      dob = dob.format("DD-MM-YYYY");
+      surety_dob = surety_dob.format("DD-MM-YYYY");
       const result = await PDService.addMember(
         {
           name,
@@ -125,6 +128,7 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
         addMemberInfo.id
       );
       setLoading(false);
+      message.success("member added successfully!");
       onCancel();
     } catch (e) {
       setLoading(false);
