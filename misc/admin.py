@@ -38,6 +38,12 @@ class BranchAdmin(admin.ModelAdmin):
 class CenterAdmin(admin.ModelAdmin):
     raw_id_fields = ("user", "branch")
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields["status"].required = False
+        form.base_fields["shortName"].required = False
+        return form
+
     def save_model(self, request, obj, form, change):
         if obj.id == None:
             obj.createdBy = request.user

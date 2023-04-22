@@ -104,7 +104,7 @@ class MemberList(generics.ListCreateAPIView):
                 name=request.data["name"],
                 tamilName=request.data["tamil_name"],
                 dob=datetime.datetime.now(),
-                suretyAge=datetime.datetime.now(),
+                suretyAge=request.data["surety_dob"],
                 fatherName=request.data["f_name"],
                 motherName=request.data["m_name"],
                 religion=request.data["religion"],
@@ -126,7 +126,7 @@ class MemberList(generics.ListCreateAPIView):
             member.save()
             return Response(request.data, status=status.HTTP_200_OK)
         except Exception as e:
-            import pdb;pdb.set_trace()
+            print (e)
             return Response(e, status=status.HTTP_206_PARTIAL_CONTENT)
 
 

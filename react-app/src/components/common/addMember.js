@@ -16,7 +16,6 @@ import {
   Upload,
   Modal,
 } from "antd";
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 let EDUCATION_TYPE, HOUSE_TYPE, MARTIAL_TYPE, OCCUPATION_TYPE, RELIGION_TYPE;
@@ -67,59 +66,69 @@ let RELATIONSHIP_TYPE = [
 const AddMember = ({ addMemberInfo, onCancel }) => {
   const [loading, setLoading] = useState(false);
 
+  const onFinishFailed = () => {
+    setLoading(false);
+  };
+
   const onFinish = async (values) => {
-    // const {
-    //   name,
-    //   tamil_name,
-    //   dob,
-    //   surety_dob,
-    //   f_name,
-    //   m_name,
-    //   religion,
-    //   occupation, 
-    //   surety_aadhaar_no,
-    //   surety_name,
-    //   relationship,
-    //   years_service,
-    //   marital_status,
-    //   education,
-    //   aadhaar_no,
-    //   house,
-    //   no_of_children,
-    //   no_of_adults,
-    //   address,
-    //   monthly_income,
-    //   disabledPerson,
-    // } = values;
-    setLoading(true);
     try {
-      const result = await PDService.addMember({
-        name: "selva",
-        tamil_name: "செல்வா",
-        dob: "need to do",
-        surety_dob: "need to do",
-        f_name: "kanann",
-        m_name: "sumathi",
-        religion: "hindu",
-        occupation: "tailor",
-        surety_aadhaar_no: "445546456456456456456",
-        surety_name: "vimal",
-        relationship: "father",
-        years_service: 1,
-        marital_status: "married",
-        education: "10-grade",
-        aadhaar_no: "657567567567657",
-        house: "own",
-        years_of_house:3,
-        no_of_children: 3,
-        no_of_adults: 3,
-        address: "no 123, bus stand, Tmalai , KArur",
-        monthly_income: 13000,
-        disabled_person: 'true'
-      }, addMemberInfo.id);
+      const {
+        name,
+        tamil_name,
+        dob,
+        surety_dob,
+        f_name,
+        m_name,
+        religion,
+        occupation,
+        surety_aadhaar_no,
+        surety_name,
+        relationship,
+        years_service,
+        marital_status,
+        education,
+        aadhaar_no,
+        house,
+        no_of_children,
+        no_of_adults,
+        address,
+        monthly_income,
+        disabled_person,
+        years_of_house,
+      } = values;
+      setLoading(true);
+      const result = await PDService.addMember(
+        {
+          name,
+          tamil_name,
+          dob,
+          surety_dob,
+          f_name,
+          m_name,
+          religion,
+          occupation,
+          surety_aadhaar_no,
+          surety_name,
+          relationship,
+          years_service,
+          marital_status,
+          education,
+          aadhaar_no,
+          house,
+          no_of_children,
+          no_of_adults,
+          address,
+          monthly_income,
+          disabled_person,
+          years_of_house,
+        },
+        addMemberInfo.id
+      );
       setLoading(false);
       onCancel();
-    } catch (e) {}
+    } catch (e) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -135,8 +144,8 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
         <Button
           key="submit"
           type="primary"
-          // form="addMemberForm"
-          onClick={()=> onFinish()}
+          form="addMemberForm"
+          onClick={() => onFinish()}
           htmlType="submit"
           loading={loading}
         >
@@ -145,7 +154,12 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
       ]}
     >
       <div className="finserve-form">
-        <Form layout="horizontal" id="addMemberForm" onValuesChange={onFinish}>
+        <Form
+          layout="horizontal"
+          id="addMemberForm"
+          onFinishFailed={onFinishFailed}
+          onFinish={onFinish}
+        >
           <h4>Surety Person:</h4>
           <div style={{ display: "flex" }}>
             <Form.Item
@@ -158,12 +172,12 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
             <Form.Item
               name="tamil_name"
               rules={[{ required: true, message: "Please give tamil name" }]}
-              label="Name"
+              label="Tamil Name"
             >
               <Input />
             </Form.Item>
             <Form.Item name="dob" label="Age">
-              <Input />
+              <DatePicker format="DD-MM-YYYY" />
             </Form.Item>
             <Form.Item
               name="relationship"
@@ -172,11 +186,13 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
               ]}
               label="Relationship"
             >
-              {RELATIONSHIP_TYPE.map((r, index) => (
-                <Select.Option key={index} value={r.key}>
-                  {r.value}
-                </Select.Option>
-              ))}{" "}
+              <Select style={{ width: "200px" }}>
+                {RELATIONSHIP_TYPE.map((r, index) => (
+                  <Select.Option key={index} value={r.key}>
+                    {r.value}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </div>
           <h4>Member:</h4>
@@ -189,7 +205,7 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
               <Input />
             </Form.Item>
             <Form.Item name={"surety_dob"} label="Age">
-              <Input />
+              <DatePicker format="DD-MM-YYYY" />
             </Form.Item>
           </div>
           <div style={{ display: "flex" }}>
@@ -225,22 +241,13 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
             </Form.Item>
             <Form.Item
               label="Monthly Income"
-              name="income"
+              name="monthly_income"
               rules={[{ required: true, message: "Please give income" }]}
-            >
-              <InputNumber />
-            </Form.Item>
-            <Form.Item
-              rules={[{ required: true, message: "Please give income" }]}
-              label="Yearly Income"
             >
               <InputNumber />
             </Form.Item>
           </div>
           <div style={{ display: "flex" }}>
-            <Form.Item label="Education">
-              <Input />
-            </Form.Item>
             <Form.Item label="Religion" name="religion">
               <Select style={{ width: "200px" }}>
                 {RELIGION_TYPE.map((r, index) => (
@@ -250,7 +257,7 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item label="Education">
+            <Form.Item name="education" label="Education">
               <Select style={{ width: "200px" }}>
                 {EDUCATION_TYPE.map((r, index) => (
                   <Select.Option key={index} value={r.key}>
@@ -282,6 +289,13 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
             </Radio.Group>
           </Form.Item>
           <Form.Item
+            label="Years of house"
+            name="years_of_house"
+            rules={[{ required: true, message: "Please five Years of House" }]}
+          >
+            <InputNumber />
+          </Form.Item>
+          <Form.Item
             label="Years of Service"
             name="years_service"
             rules={[
@@ -311,14 +325,14 @@ const AddMember = ({ addMemberInfo, onCancel }) => {
             </Radio.Group>
           </Form.Item>
           <Form.Item
-            name="family_members"
+            name="no_of_adults"
             rules={[{ required: true, message: "Please give family members" }]}
             label="Member of Family Members: (Adults)"
           >
             <InputNumber />
           </Form.Item>
           <Form.Item
-            name="family_children"
+            name="no_of_children"
             rules={[{ required: true, message: "Please give family members" }]}
             label="Member of Family Members: (Children)"
           >
